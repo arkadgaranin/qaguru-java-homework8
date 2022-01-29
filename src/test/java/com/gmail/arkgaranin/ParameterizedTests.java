@@ -1,10 +1,7 @@
 package com.gmail.arkgaranin;
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.*;
 
 import java.util.stream.Stream;
 
@@ -16,7 +13,7 @@ public class ParameterizedTests extends TestBase {
 
   @ValueSource(strings = {"QA automation engineer", "Manual QA"})
   @ParameterizedTest(name = "Тестирование поиска вакансий на hh.ru с тестовыми данными: {0}")
-  void searchAutomationVacancyOnHhTest1(String testData) {
+  void searchVacancyOnHhTest1(String testData) {
     open("/");
     $("[data-qa=search-input]").setValue(testData);
     $("[data-qa=search-button]").click();
@@ -25,11 +22,21 @@ public class ParameterizedTests extends TestBase {
 
   @CsvSource(value = {
       "QA automation engineer, Разработка автоматизированных тестов",
-      "Manual QA, Review and analyze system specifications"
+      "Manual QA, Проводить регрессионное тестирование web - сервиса"
   })
 
   @ParameterizedTest(name = "Тестирование поиска вакансий на hh.ru с тестовыми данными: {0}")
-  void searchAutomationVacancyOnHhTest2(String testData, String expectedResult) {
+  void searchVacancyOnHhTest2(String testData, String expectedResult) {
+    open("/");
+    $("[data-qa=search-input]").setValue(testData);
+    $("[data-qa=search-button]").click();
+    $("[data-qa=vacancy-serp__results] > div [data-qa=vacancy-serp__vacancy_snippet_responsibility] > span").
+        shouldHave(text(expectedResult));
+  }
+
+  @CsvFileSource(resources = "/testData.csv")
+  @ParameterizedTest(name = "Тестирование поиска вакансий на hh.ru с тестовыми данными: {0}")
+  void searchVacancyOnHhTest3(String testData, String expectedResult) {
     open("/");
     $("[data-qa=search-input]").setValue(testData);
     $("[data-qa=search-button]").click();
@@ -40,13 +47,13 @@ public class ParameterizedTests extends TestBase {
   static Stream<Arguments> dataProvider() {
     return Stream.of(
         Arguments.of("QA automation engineer", "Опыт автоматизации тестирования"),
-        Arguments.of("Manual QA", "2 years of experience in testing")
+        Arguments.of("Manual QA", "Опыт работы в тестировании ПО не менее 3-х лет")
     );
   }
 
   @MethodSource("dataProvider")
   @ParameterizedTest(name = "Тестирование поиска вакансий на hh.ru с тестовыми данными: {0}")
-  void searchAutomationVacancyOnHhTest3(String testData, String expectedResult) {
+  void searchVacancyOnHhTest4(String testData, String expectedResult) {
     open("/");
     $("[data-qa=search-input]").setValue(testData);
     $("[data-qa=search-button]").click();
