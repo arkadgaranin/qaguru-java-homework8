@@ -17,7 +17,7 @@ public class ParameterizedTests extends TestBase {
     open("/");
     $("[data-qa=search-input]").setValue(testData);
     $("[data-qa=search-button]").click();
-    $("[data-qa=vacancy-serp__results] > div span[data-qa=bloko-header-3]").shouldHave(text(testData));
+    $("span[data-qa=bloko-header-3]").shouldHave(text(testData));
   }
 
   @CsvSource(value = {
@@ -30,8 +30,7 @@ public class ParameterizedTests extends TestBase {
     open("/");
     $("[data-qa=search-input]").setValue(testData);
     $("[data-qa=search-button]").click();
-    $("[data-qa=vacancy-serp__results] > div [data-qa=vacancy-serp__vacancy_snippet_responsibility] > span").
-        shouldHave(text(expectedResult));
+    $("[data-qa=vacancy-serp__vacancy_snippet_responsibility] > span").shouldHave(text(expectedResult));
   }
 
   @CsvFileSource(resources = "/testData.csv")
@@ -40,8 +39,7 @@ public class ParameterizedTests extends TestBase {
     open("/");
     $("[data-qa=search-input]").setValue(testData);
     $("[data-qa=search-button]").click();
-    $("[data-qa=vacancy-serp__results] > div [data-qa=vacancy-serp__vacancy_snippet_responsibility] > span").
-        shouldHave(text(expectedResult));
+    $("[data-qa=vacancy-serp__vacancy_snippet_responsibility] > span").shouldHave(text(expectedResult));
   }
 
   static Stream<Arguments> dataProvider() {
@@ -57,7 +55,6 @@ public class ParameterizedTests extends TestBase {
     open("/");
     $("[data-qa=search-input]").setValue(testData);
     $("[data-qa=search-button]").click();
-    $("[data-qa=vacancy-serp__results] > div [data-qa=vacancy-serp__vacancy_snippet_requirement] > span").
-        shouldHave(text(expectedResult));
+    $("[data-qa=vacancy-serp__vacancy_snippet_requirement] > span").shouldHave(text(expectedResult));
   }
 }
